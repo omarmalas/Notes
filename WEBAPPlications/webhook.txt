@@ -1,5 +1,5 @@
 sign in with github, 
-this web hook will give you a url that you can insert into a vulnerable to xss page which will make a request to the web hook url: 
+this web hook will give you a url that you can insert into a vulnerable xss page which will make a request to the web hook url: 
 
 https://pipedream.com/workflows
 
