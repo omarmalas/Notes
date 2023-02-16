@@ -1,0 +1,9 @@
+
+/**Paste this code into console on inspect page to get download link for instagram (note: you need to be on mobile phone view) **/
+
+var vids = document.querySelectorAll('video.tWeCl');
+vids.forEach(function(v){
+
+ var src = v.getAttribute('src');
+ console.log(src);
+});
