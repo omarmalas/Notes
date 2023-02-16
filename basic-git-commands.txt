@@ -1,0 +1,22 @@
+git branch --> get branches available.
+
+git status --> shows the status of your local repository and what is in staging and what have not been commited yet.
+
+git log --> you can see what where the commits you have done and you can get back to a certain point in time by using
+git checkout "HERE GOES THE HASH OF THE COMMIT YOU WANT TO GO BACK FOR without double quotations".
+
+git add file.name --> adds your file to the stager.
+
+git rm file.name --> removes a file from your local and remote repos after git pull origin main is executed.
+
+git commit -m "your message" --> commits the changes you made.
+
+git push origin main --> pushes your updates to gitlab.
+
+if git push origin main gave an error it may be because your remote repository needs to be pulled for 
+synchronization it can be done through: --> git pull origin main.
+
+==============================
+NOTES on git: 
+
+https://www.notion.so/zarkom/Introduction-to-Git-ac396a0697704709a12b6a0e545db049#90547dd920ae47bb987c6e2b40f880e7
