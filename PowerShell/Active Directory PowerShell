@@ -1,0 +1,21 @@
+Active Directory enumeration using PowerShell:
+
+1) Get-NetDomainController     :This command will collect information on the domain controller.
+
+2) Get-NetUser                 :This command will provide a list of domain users. The output is huge so you must use it with out-gridview like: Get-NetUser | out-gridview ###### The output can also be limited by providing the name of the property we are interested in like: (Get-NetUser).name will only retrieve the name property. Values for a specific property can be listed. For example, if we wanted to list users' last logon dates and times we could use the Get-NetUser | select-object -ExpandProperty lastlogon command.
+
+3) Get-NetComputer              :This command is useful to enumerate systems connected to the domain. This command can also be used with the “-ping” parameter to enumerate the systems that are currently online like: get-NetComputer -ping
+
+4) Get-NetGroup                 :Some accounts can be members of important groups, such as domain admins. Knowing which accounts have useful privileges or are a member of groups of interest will be useful for lateral movement and privilege escalation. The “Get-NetGroup” command will help us enumerate existing groups.
+
+5) Get-NetGroupMember           :This will be used to enumerate members of the group using Get-NetGroupMember "Domain Admins"
+
+6) Find-DomainShare             :will list available shares. We added the (-CheckShareAccess flag) like: find-DomainShare -CheckShareAccess option to list only readable shares.
+
+7) Get-NetGPO                   :Enumerate Group Policy. Group Policy is used to configure computers connected to the domain. Get-NetGPO command will gather information on enforced policies.
+
+8) Get-NetDomainTrust           :Enumerate for trusted domains on the AD, view which domains has a trust relationship with the first infected machine.
+
+9) Find-LocalAdminAccess        :command will list systems in the domain you may access as a local administrator.
+
+For most of the PowerView commands, all you need to do is to add the “-Domain” parameter followed by the name of the other domain (e.g. Get-NetUsers -Domain infra.munn.local)

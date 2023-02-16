@@ -1,0 +1,5 @@
+summary: 
+
+to start snort in IPS mode: 
+
+# snort -Q -c /etc/snort/rules/local.rules -q --daq afpacket -i eth0:eth1 -A full 

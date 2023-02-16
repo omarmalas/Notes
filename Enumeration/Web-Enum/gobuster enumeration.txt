@@ -1,0 +1,18 @@
+https://reboare.gitbooks.io/security/content/web-scanning.html
+https://daronwolff.com/wfuzz-cheatsheet/
+==============================================================
+
+gobuster can Enumerate 3 different types: 
+1) dir (DIRECTORIES)
+2) dns (SUBDOMAINS)
+3) vhos (VIRTUAL HOSTS --> APACHE)
+
+EXAMPLE ON ENUMERATING DIRECOTRIES in gobuster:
+
+ gobuster dir -u http://10.10.11.188/ -w /usr/share/seclists/Discovery/Web-Content/common.txt -t 50
+
+
+
+EXAMPLE ON ENUMERATING VHOSTS in gobuster: 
+
+ gobuster vhost -w /home/hell59/SecLists/Discovery/DNS/bitquark-subdomains-top100000.txt -t 50 -u shoppy.htb

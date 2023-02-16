@@ -1,0 +1,27 @@
+enum4linux:
+	
+	is a tool used to enumerate SMB to use this tool you need to install a package called samba: # apt-get install samba
+
+TAG            FUNCTION
+
+-U             get userlist
+-M             get machine list
+-N             get namelist dump (different from -U and-M)
+-S             get sharelist
+-P             get password policy information
+-G             get group and member list
+
+-a             all of the above (full basic enumeration)
+
+usage: 
+	enum4linux <options> <target>
+
+-------------------------------------------
+
+We can 
+
+smbclient: 
+	is a tool used to remotely access the SMB share.
+
+usage: 
+	smbclient //[IP]/[SHARE]

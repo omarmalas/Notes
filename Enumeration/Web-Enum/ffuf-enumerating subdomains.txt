@@ -1,0 +1,13 @@
+[Example on enumerating subdomains]:
+
+ffuf -w /path/to/wordlist/ -u URL -H "Host: FUZZ.URL.url" -fs anynumber
+
+-w : for chosing your wordlist
+
+:FUZZ this puts variables from your wordlist into this variable called fuzz
+
+-u : to specify your URL 
+
+-H : specify your header name you want to fuzz in this scenario it is the Host header 
+
+-fs : short for "filter size" specify any number to filter against for an example if you get back so many 200 response pages(the reason for this is you are actually reaching the URL but you're only changing the header information) and their size is 999 you can sepcify 999 in the -fs tag to filter any page that is returning 999, because remember in this example you're fuzzing subdomains which will always return true and thus a constant size if the page doesn't exist  

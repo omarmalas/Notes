@@ -1,0 +1,137 @@
+Here's Microsoft Docs on approved verbs: https://docs.microsoft.com/en-us/powershell/scripting/developer/cmdlet/approved-verbs-for-windows-powershell-commands?view=powershell-7
+--------------------------------------------
+PowerShell is quite sensitive so make sure you don't put quotes around the command!
+
+PowerShell commands are called cmdlets!
+
+The normal format of a cmdlet is represented using Verb-Noun! for example: Get-Help!
+
+--------------------------------------------
+Basic PowerShell commands:
+
+1- Get-Help             :get help about a particular cmdlet (you can use the -examples flag to get examples on how to use each cmdlet you search for)
+
+2- Get-Command          :gets all the cmdlets installed on the current Computer. (you can use get-command followed by *-Noun OR Verb-* to search for a specific command)
+
+You can USE (measure) after a pipe to calculate the end result of a search... an example of using measure with get-command:{ get-command -CommandType cmdlet | measure } this will return how many cmdlets are installed.
+
+3- The Pipeline ( | )   :used to pass output from one cmdlet to another. A major difference compared to other shells is that instead of passing text or string to the command after the pipe, PowerShell passes an object to the next cmdlet.
+
+4- **Get-Member**       :I'm not sure what it does
+
+5- Select-Object        :For Manipulating Objects like you want exactly one specific column to be displayed well the column here is an object and can be controlled using the (-property flag) and it is best used after a pipeline! (NOTE: you can use these flags: first - gets the first x object OR last - gets the last x object OR unique - shows the unique objects OR skip - skips x objects)
+
+6- Get-ChildItem        :lists directories, you can list them recursively using the (-recurse flag) and search through directories for files using the (-include *FileName* flag), you can also specify that it is a file that you're looking for not a directory by using the (-File flag) and also you can specify the path you want to search in by using the (-Path flag)
+
+Here's an example of listing the directories and just selecting the mode and the name: Get-ChildItem | Select-Object -Property Name, Mode
+
+7- Where-Object         :When retrieving output objects, you may want to select objects that match a very specific value. You can do this using the Where-Object to filter based on the value of properties. The general format of the using this cmdlet is: { Verb-Noun | Where-Object -Property PropertyName -operator Value} here the -operator flag can be any of these operators:
+-Contains: if any item in the property value is an exact match for the specified value
+-EQ: if the property value is the same as the specified value
+-GT: if the property value is greater than the specified value
+
+Here's an example for checking the stopped services: { Get-Service | Where-Object -Property Status -eq Stopped }
+
+For a full list of operators, use this link: https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/where-object?view=powershell-7.2&viewFallbackFrom=powershell-6
+
+8- Sort-Object           :When a cmdlet outputs a lot of information, you may need to sort it to extract the information more efficiently. You do this by pipe lining the output of a cmdlet to the Sort-Object cmdlet. You can add the (-property flag) to sort bases on a specific property.
+
+Here's an example of sort the list of directories: { Get-ChildItem | Sort-Object }
+
+9- Get-Content           :this is CAT alternative in Linux it reads the file specified
+
+10- Get-FileHash         :this is used to calculate the hash of a file! By specifying the algorithm after the (-Algorithm flag).
+
+11- Get-Location         :Get's your current working directory just like pwd in Linux, it can also be used to verify whether a specific location exists.
+
+12- Set-Location         : Changes your current directory location to the location you specify in double quotes.
+
+13- Invoke-WebRequest    : Much Like Curl it makes a request to a web server and displays it in PowerShell
+
+14- Out-file             : Sends Output to a file.
+
+15- USE THE FOLLOWING METHOD TO DECODE BASE64 IN POWERSHELL:
+
+$file = "Full File Path"
+$data = Get-Content $file
+[System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($data)) | Out-File -Encoding "ASCII" out.html
+
+16- Get-localuser        : Gets local users on the machine... pass measure after using this command in a pipeline to get the total number of users on the machine
+
+You can search for a local user Security Identifier by passing the (-SID flag followed by "THE SECURITY Identifier YOU WANT")
+
+OR you can check whether a password is set as required or not to a specific user using: { get-localuser | where-object -property passwordrequired -match false | Select-Object -Property Name,enabled,description, passwordrequired }
+
+17- Get-LocalGroup       :Lists all the created local groups, to get the number pipeline this cmdlet into measure
+
+18- Get-NetIPAddress     :Alternative for ipconfig and ifconfig ... Use it to get the IP address info
+
+19- Get-NetTCPConnection :Lists all open ports and their status
+
+20- Get-Process          :Lists all running processes. IT can be used with the (-name flag) to filter for processes name { Get-Process -name notepad.exe }
+
+21- Get-ScheduledTask    :Lists all scheduled tasks, their path, name and State whether it is disabled or not!
+
+22- Get-HotFix           :Lists all the updates, the date the machine was updates, who installed the update and a description.
+
+23- Select-String        :Finds text in Strings and Files!!! you can use the (-patterns flag) to search for a specific string
+
+24- Get-Acl              :ACL stands for access control list... you can use this command for example to find the owner of a drive or a file i.e.: { Get-Acl C:\ } this will list the owner of C:\ drive.
+
+25- Start-Process        :This command can be used to start a process. { Start-Process notepad.exe }
+
+26- Export-Csv           :This command will create a CSV file with the output of the first command if used after a pipeline
+
+27- Copy-Item            :This can copy an item from one path to another path just like "cp" in Linux
+
+28- Move-Item            :This command can move item from one path to another just like "mv" in Linux
+
+29- Findstr              :this is similar to grep but it greps property from a passed object
+
+30- Format-Table         :Formats the output in a table view
+
+31- Format-list          :Formats the output in a list, this can also be used to gather more information like creation date and time { dir | format-list * } a wild card can be used after the format-list command
+
+32- Out-Gridview         :This can be used to output beautiful GUI table output of any table view
+
+33- 2>$null              : Similar to 2>/dev/null in Linux it redirects errors to null giving us cleaner output.
+
+34- 1..15 | ${echo "10.0.2$_"; ping -n 1 10.0.2.$_ | Select-String ttl}
+The first part of the command, delimited by the "|" character, sets the range for the last octet. The second part generates and prints the IP address to be used and pipes it to the command line. Finally, the last part greps lines that include the “TTL” string. and the % sign is used to start script blocks after the pipeline.
+
+---------------------------------------------------------------------
+*********************************************************************
+***ExecutionPolicy is not a security feature and can be bypassed by users***
+
+35- Get-ExecutionPolicy  :This returns the current state of the execution policy
+
+36- Set-ExecutionPolicy  :This command sets the execution policy
+
+WAYS to BYPASS EXECUTION POLICIES (NOTE THAT SOME METHODS REQUIRE ADMIN PRIVILEGES):
+
+1) powershell -ExecutionPolicy Bypass -File .\filename
+
+2) Set-ExecutionPolicy Bypass -scope Process #######THE FLAG -scope will set the execution policy only for the current PowerShell session and will go back to the initial settings once the PowerShell session is closed.
+
+!!!!!! Execution policies can have seven different values !!!!!!!
+
+AllSigned: Scripts can run but require all scripts to be signed by a trusted publisher.
+
+Bypass: All scripts can run, and no warnings or prompts will be displayed.
+
+Default: This refers to “restricted” for Windows clients and “RemoteSigned” for Windows servers.
+
+RemoteSigned: Scripts can run, and this does not require local scripts to be digitally signed.
+
+Restricted: The default configuration for Windows clients. Allows individual commands to run, does not allow scripts.
+
+Undefined: This shows that no specific execution policy was set. This means default execution policies will be enforced.
+
+Unrestricted: Most scripts will run.
+*********************************************************************
+---------------------------------------------------------------------
+
+
+DOWNLOAD FILES USING POWERSHELL: (New-Object System.Net.WebClient).Downloadfile('https://URL/filename' , 'path to save new_filename')
+OR
+ Invoke-WebRequest "https://URL/filename" -OutFile "path/to/filename"

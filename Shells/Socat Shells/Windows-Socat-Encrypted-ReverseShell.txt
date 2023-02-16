@@ -1,0 +1,9 @@
+1)Generate Certifacte to use for encryption:
+
+$ openssl req --newkey rsa:2048 -nodes -keyout shell.key -x509 -days 362 -out shell.crt
+
+2) Combine the key with the certificate in one file and call it something.pem
+
+$ cat shell.key shell.crt > shell.pem
+
+3) 
